@@ -1,0 +1,30 @@
+# @package _global_
+
+# Depth-recurrent model in the Huginn layout (Geiping et al., 2025): prelude
+# blocks, one weight-shared core block unrolled to a fixed depth with the
+# prelude output re-injected through an adapter, and coda blocks.
+model:
+  arch: huginn
+  routed: false
+  attention_strategy: full_causal
+  n_head: ${shape.n_head}
+  n_embd: ${shape.n_embd}
+  # Physical layers of the shared recurrent core; each recurrence runs all
+  # of them once.
+  n_layer: ${shape.huginn_n_core_layers}
+  n_prelude_layers: ${shape.huginn_n_prelude_layers}
+  n_coda_layers: ${shape.huginn_n_coda_layers}
+  # Number of recurrences in the fixed-depth paper recipes.
+  recurrent_depth: ${shape.huginn_recurrent_depth}
+  # Published adapter: A([state, prelude]) -> state.
+  recurrent_input_injection: adapter
+  # The published latent state starts from truncated N(0, 1) noise.
+  recurrent_state_std: 1.0
+  # Only the published sandwich blocks are supported.
+  sandwich_norm: true
+
+training:
+  max_lr: 4.0e-4
+  min_lr: 4.0e-5
+  recurrence_curriculum:
+    enabled: false

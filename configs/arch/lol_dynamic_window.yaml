@@ -1,0 +1,34 @@
+# @package _global_
+
+model:
+  arch: lol_dynamic_window
+  routed: true
+  attention_strategy: shifted_window
+  n_head: ${shape.n_head}
+  n_embd: ${shape.n_embd}
+  n_experts: ${shape.lol_n_experts}
+  window: 128
+  window_stride: 64
+  first_window_routing: learned_token_depth
+  first_window_length: null
+  recurrent_depth: ${shape.lol_recurrent_depth}
+  n_prelude_layers: 1
+  n_coda_layers: 1
+  depth_expert_film: false
+  weight_tie_router: true
+  aux_loss_coeff: 0.02
+  grouped_window_dispatch: true
+
+training:
+  max_lr: 6.0e-4
+  min_lr: 6.0e-5
+  recurrence_curriculum:
+    enabled: false
+    mode: null
+    mean_schedule: one_minus_sqrt
+    start_depth: null
+    target_mean: 30
+    growth_steps: null
+    warmup_frac: 0.25
+    backprop_depth: null
+    first_window_full_backprop: false

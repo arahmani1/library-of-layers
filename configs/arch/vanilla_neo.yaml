@@ -1,0 +1,13 @@
+# @package _global_
+
+model:
+  arch: vanilla_neo
+  routed: false
+  attention_strategy: full_causal
+  n_head: ${shape.n_head}
+  n_embd: ${shape.n_embd}
+  n_layer: ${shape.vanilla_n_layer}
+
+training:
+  max_lr: 4.0e-4
+  min_lr: 4.0e-5

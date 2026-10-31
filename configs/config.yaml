@@ -1,0 +1,96 @@
+defaults:
+  - _self_
+  - shape: 360m
+  - arch: vanilla_neo
+  - override hydra/job_logging: disabled
+  - override hydra/hydra_logging: disabled
+
+seed: 42
+
+# Shared model behavior. Shape and architecture YAMLs add scale and structure.
+model:
+  block_size: 1024
+  vocab_size: 50432
+  qk_norm: true
+  normalization: affine_rmsnorm
+  window: null
+  window_stride: null
+  eot_token_id: 0
+  moe_ffn: false
+  moe_ffn_scope: all
+  moe_ffn_n_experts: 8
+  moe_ffn_top_k: 2
+  moe_ffn_hidden_dim: null
+  moe_ffn_aux_loss_coeff: 0.01
+  recurrent_input_injection: none
+  # Per-document [start, stop) hidden from every other token's attention in
+  # the full-sequence blocks.
+  hidden_key_span: null
+
+training:
+  max_steps: ${shape.training.max_steps}
+  batch_size: ${shape.training.batch_size}
+  grad_accum_steps: ${shape.training.grad_accum_steps}
+  warmup_steps: ${shape.training.warmup_steps}
+  weight_decay: 0.1
+  grad_clip: 1.0
+  dtype: bfloat16
+  compile: true
+  optimizer: muon
+  flop_budget:
+    enabled: false
+    total_flops: 2.0e+19
+  # With Muon, keep router matrices on Muon by default. Set false to put all
+  # router parameters on the composite optimizer's AdamW side.
+  muon_router: true
+  lb_mode: global
+  load_balancing:
+    strategy: loss_free
+    bias_update_speed: 0.001
+    bias_update_stop_fraction: 0.966
+    sequence_aux_coeff: 0.0001
+
+data:
+  dataset: fineweb
+  data_dir: data/fineweb
+  validation_sets: [val]
+  # "reasoning_answer_untagged" trains on puzzle reasoning/answers excluding
+  # strategy labels and enables per-section validation. null trains on all targets.
+  loss_sections: null
+  # Per-document [start, stop) of the strategy label (manifest layout.tag_span).
+  tag_span: null
+
+# Run identity and destinations are shared rather than architecture groups.
+wandb_project: mol
+wandb_run_name: ${model.arch}-${training.optimizer}
+# CHECKPOINT_ROOT points runs at a machine's own scratch disk without
+# touching the config, so the default stays portable across boxes.
+save_dir: ${oc.env:CHECKPOINT_ROOT,checkpoints}/${model.arch}/${training.optimizer}
+
+logging:
+  log_every: 1
+  eval_every: 500
+  eval_batches: 100
+  save_every: 10000
+  # Cross-language block-routing diagnostics under router/multilingual/*.
+  # Active only for routed models with more than one validation split.
+  routing_diagnostics:
+    enabled: true
+    # "pooled", or a language code to read every panel as "unlike <pivot>".
+    pivot: pooled
+    max_windows: 4000
+    trace_batches: 1
+    fertility_alert: 0.05
+
+run:
+  fresh: false
+
+hydra:
+  run:
+    dir: .
+  sweep:
+    dir: .
+    subdir: .
+  output_subdir: null
+  job:
+    chdir: false

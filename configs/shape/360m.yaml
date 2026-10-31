@@ -1,0 +1,19 @@
+# @package shape
+
+name: 360m
+supported_arches: [vanilla_neo, lol_dynamic_window, huginn]
+n_head: 16
+n_embd: 1024
+vanilla_n_layer: 24
+lol_n_experts: 22
+lol_recurrent_depth: 22
+# Paper layout (2, 4, 2) with a 64-recurrence capacity around a mean of 32.
+huginn_n_prelude_layers: 2
+huginn_n_core_layers: 4
+huginn_n_coda_layers: 2
+huginn_recurrent_depth: 64
+training:
+  batch_size: 26
+  grad_accum_steps: 5
+  max_steps: 9393
+  warmup_steps: 1477

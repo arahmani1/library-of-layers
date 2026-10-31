@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+test.ipynb
+test2.ipynb
+eval_model_fewshots.ipynb
+
+# Checkpoints & data (large files)
+checkpoints
+checkpoints/
+*.pt
+*.bin
+
+# Env / IDE
+.env
+.venv/
+.venv-eval/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# W&B
+wandb/
+
+assets/
+*.png
+*.pdf
+*.orig
+*.bak
+*.log
+*.npz
