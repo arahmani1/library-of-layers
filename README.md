@@ -1,13 +1,17 @@
 # Library of Layers (LoL)
 
-Code to reproduce **Library of Layers (LoL): Adaptively Ordering Transformer Layers at Runtime**. A joint project by Abdellah Rahmani, Sean McLeish, Ang Li, Sanae Lotfi, Pascal Frossard, and Micah Goldblum.
+Code to reproduce **Library of Layers (LoL): Adaptively Ordering Transformer Layers at Runtime**. A joint project by Abdellah Rahmani\*, Sean McLeish\*, Ang Li, Sanae Lotfi, Pascal Frossard, and Micah Goldblum.
+
+\* Equal contribution.
+
+Paper: [arXiv:2611.03526](https://arxiv.org/abs/2611.03526).
 
 # Citing Our Work
 ```
 @article{rahmani2026library,
     title={Library of Layers (LoL): Adaptively Ordering Transformer Layers at Runtime}, 
     author={Abdellah Rahmani and Sean McLeish and Ang Li and Sanae Lotfi and Pascal Frossard and Micah Goldblum},
-    journal={arXiv preprint arXiv:2611.},
+    journal={arXiv preprint arXiv:2611.03526},
     year={2026}
 }
 ```
