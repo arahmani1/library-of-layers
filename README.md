@@ -4,7 +4,15 @@ Code to reproduce **Library of Layers (LoL): Adaptively Ordering Transformer Lay
 
 \* Equal contribution.
 
-Paper: [arXiv:2611.03526](https://arxiv.org/abs/2611.03526).
+<p align="center">
+  <a href="https://arxiv.org/abs/2611.03526">
+    <img src="docs/media/paper.svg" alt="Paper on arXiv" width="112" height="38">
+  </a>
+</p>
+
+<p align="center">
+  <img src="docs/media/LoL_teaser.gif" alt="Animated overview of Library of Layers (LoL)" width="960">
+</p>
 
 # Citing Our Work
 ```
